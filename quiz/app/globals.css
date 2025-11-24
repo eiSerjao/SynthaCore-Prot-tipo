@@ -272,4 +272,29 @@ html, body, #__next {
 /* increase spacing under progress for visual parity */
 .quiz-root .quiz-progress { margin-top: 18px; margin-bottom: 18px; height: 14px; }
 
+/* Footer dark variant matching reference image */
+.site-footer-dark{ background: linear-gradient(180deg,#150b1a 0%, #1c1322 100%); color: #e6e6ee; padding: 42px 0 20px; margin-top: 42px; }
+.site-footer-dark .container{ max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.site-footer-dark .footer-inner{ max-width:1200px; margin: 0 auto; }
+.site-footer-dark .footer-columns{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 28px; padding: 8px 0 22px; }
+.site-footer-dark h4{ color: #fff; font-size: 1.02rem; margin-bottom: 12px; position: relative; padding-bottom: 8px; }
+.site-footer-dark h4::after{ content: ""; position: absolute; left: 0; bottom: 0; width: 56px; height: 3px; background: linear-gradient(90deg,#7c3aed,#6b7ff0); border-radius:3px; }
+.site-footer-dark .muted{ color: #c9c7d9; line-height:1.7; font-size:0.95rem; }
+.site-footer-dark .footer-list{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; color:#cfcfe8; }
+.site-footer-dark .footer-list li{ display:flex; align-items:flex-start; gap:10px; }
+.site-footer-dark .footer-columns .footer-col{ min-height:120px; }
+
+.site-footer-dark .footer-bottom{ border-top: 1px solid rgba(255,255,255,0.04); padding-top: 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.site-footer-dark .copyright{ color:#bdb9cf; font-size:0.92rem; }
+.site-footer-dark .footer-icons{ display:flex; gap:8px; }
+.site-footer-dark .icon{ display:inline-flex; width:34px; height:24px; align-items:center; justify-content:center; background: rgba(255,255,255,0.03); border-radius:6px; color:#fff; text-decoration:none; }
+
+@media (max-width: 980px){
+  .site-footer-dark .footer-columns{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .site-footer-dark .footer-columns{ grid-template-columns: 1fr; text-align:left; }
+  .site-footer-dark .footer-bottom{ flex-direction:column; align-items:flex-start; }
+}
+
 
