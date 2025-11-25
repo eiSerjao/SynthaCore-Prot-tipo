@@ -60,12 +60,14 @@ html, body, #__next {
 
   .pill-row{
     display:flex; gap:14px; justify-content:center; align-items:center;
-    padding: 0.8rem 1rem; border-radius: 16px; margin-top: -38px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 12px 30px rgba(11,15,30,0.06);
-    max-width: 920px; margin-left: auto; margin-right: auto;
-    backdrop-filter: blur(6px);
+    /* Deixamos o container transparente para que os botões (nav-pills)
+       fiquem soltos sobre o fundo — sem painel arredondado atrás deles. */
+    padding: 0.4rem 0.5rem; border-radius: 0; margin-top: -32px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    max-width: 100%; margin-left: 0; margin-right: 0;
+    backdrop-filter: none;
   }
 
   .content-card{
@@ -188,21 +190,31 @@ html, body, #__next {
 
 /* Demo square and example buttons */
 .demo-square{
-  width: 84px; height: 84px; border-radius: 12px;
+  /* Quadrado de demonstração: maior, centralizado e levemente elevado
+     para criar o overlap visual com as pills como no screenshot. */
+  width: 112px; height: 112px; border-radius: 14px;
   display:flex; align-items:center; justify-content:center;
   background: linear-gradient(180deg,#7c3aed,#4f46e5);
-  color: white; box-shadow: 0 10px 30px rgba(79,70,229,0.18);
-  font-weight:600; transform-origin: center center;
+  color: white; box-shadow: 0 22px 44px rgba(79,70,229,0.22);
+  font-weight:700; transform-origin: center center;
+  font-size: 0.98rem; line-height:1; text-align:center;
+  margin: 18px auto 0; /* uso margin-top em vez de top negativo para não sobrepor o texto acima */
 }
 
-.example-buttons{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+/* variante de cor trocável via classe - usada por runColor (toggle de classe) */
+.demo-square.color-alt{
+  /* gradient rosa/roxo conforme referência enviada pelo usuário */
+  background: linear-gradient(180deg,#f3a6ff 0%, #e44b7a 100%) !important;
+}
+
+.example-buttons{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:6px; }
 .example-btn{
   background: #4f46e5; color: white; padding: 8px 12px; border-radius: 8px; border: none; cursor: pointer;
   box-shadow: 0 6px 18px rgba(79,70,229,0.12); font-weight:600; font-size:0.9rem;
 }
 .example-btn:hover{ transform: translateY(-3px); }
 
-.content-card .demo-square{ margin-top: 6px; }
+.content-card .demo-square{ margin-top: 18px; margin-bottom: 8px; }
 
 /* Quiz-specific styles to match the screenshot */
 .quiz-root .content-card { max-width: 940px; margin: 18px auto; padding: 2.25rem; }

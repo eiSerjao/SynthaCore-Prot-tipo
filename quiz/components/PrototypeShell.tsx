@@ -59,12 +59,15 @@ export default function PrototypeShell() {
     gsap.fromTo(demoRef.current, { scale: 1 }, { scale: 1.35, duration: 0.8, yoyo: true, repeat: 1, ease: 'elastic.out(1, 0.6)' });
   };
   const runColor = () => {
+    // Aplica a classe `color-alt` de forma persistente para fixar o gradient rosa.
     if (!demoRef.current) return;
     const el = demoRef.current;
+    // Se já tiver a classe, não faz nada (permanece). Caso contrário, aplica com um pequeno cross-fade.
+    if (el.classList.contains('color-alt')) return;
     const tl = gsap.timeline();
-    tl.to(el, { backgroundColor: '#60a5fa', duration: 0.35 });
-    tl.to(el, { backgroundColor: 'linear-gradient(90deg,#7c3aed,#4f46e5)' as any, duration: 0.4 });
-    tl.to(el, { backgroundColor: '#7c3aed', duration: 0.35 });
+    tl.to(el, { autoAlpha: 0.06, scale: 0.96, duration: 0.16, ease: 'power1.in' });
+    tl.call(() => { el.classList.add('color-alt'); });
+    tl.to(el, { autoAlpha: 1, scale: 1, duration: 0.26, ease: 'power2.out' });
   };
   const runSequence = () => {
     if (!demoRef.current) return;
@@ -82,12 +85,19 @@ export default function PrototypeShell() {
         <header className="mb-8">
           <div className="hero-wrap max-w-5xl mx-auto">
             <div ref={headerRef} className="hero">
-            <h1 className="text-4xl font-semibold tracking-tight">Animação em Sistemas Multimídia</h1>
-            <p className="text-sm mt-2 max-w-2xl mx-auto">Sistema Educacional Interativo</p>
+              <h1 className="text-4xl font-semibold tracking-tight">Animação em Sistemas Multimídia</h1>
+              <p className="text-sm mt-2 max-w-2xl mx-auto">Sistema Educacional Interativo</p>
             </div>
+          </div>
 
-            <div className="mt-6 flex justify-center">
-              <div className="pill-row">
+          {/*
+            NOTE: movemos o bloco de navigation "pills" para FORA do .hero-wrap
+            para que os botões não fiquem presos dentro do background arredondado
+            do hero. O posicionamento visual (overlap) continua sendo controlado
+            via CSS em `.pill-row` (margin-top / transform).
+          */}
+          <div className="mt-6 flex justify-center">
+            <div className="pill-row">
               {[
                 ["intro", "🏠 Início"],
                 ["animation", "📚 Conceitos"],
@@ -104,7 +114,6 @@ export default function PrototypeShell() {
                   <span>{label}</span>
                 </button>
               ))}
-              </div>
             </div>
           </div>
         </header>
