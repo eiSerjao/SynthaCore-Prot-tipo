@@ -123,11 +123,9 @@ export default function PrototypeShell() {
           {section === 'quiz' ? (
             <main className="lg:col-span-3">
               <section className="content-card">
-                <h2>Quiz Interativo</h2>
-                <p className="mt-2 text-gray-700">Responda 5 perguntas sorteadas da base para testar seus conhecimentos.</p>
-                <div className="mt-4">
+                
                   <Quiz />
-                </div>
+                
               </section>
             </main>
           ) : (

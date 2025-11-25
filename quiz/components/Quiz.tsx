@@ -31,8 +31,13 @@ export default function Quiz() {
     setStarted(true);
   }
 
+  // Iniciar automaticamente quando o componente montar no cliente
+  // (removemos a tela de landing, portanto devemos sortear as perguntas aqui)
+  
+
   // Marca a opção selecionada para a pergunta atual
   const optionAnim = useRef<gsap.core.Tween | null>(null);
+  const landingRef = useRef<HTMLDivElement | null>(null);
   function selectOption(index: number, e?: React.MouseEvent<HTMLButtonElement>) {
     const copy = [...answers];
     copy[current] = index;
@@ -62,7 +67,27 @@ export default function Quiz() {
 
   // Reinicia o quiz com novo sorteio (apenas no cliente)
   function reset() {
-    // voltar para a tela inicial (landing)
+    // animação de saída do painel de resultado antes de resetar o estado
+    // se o elemento ainda existir, anima para baixo e então limpa o estado
+    const el = document.querySelector('.quiz-result') as HTMLDivElement | null;
+    if (el) {
+      gsap.to(el, {
+        y: 12,
+        autoAlpha: 0,
+        duration: 0.45,
+        ease: 'power2.in',
+        onComplete: () => {
+          setQuestions([]);
+          setAnswers([]);
+          setCurrent(0);
+          setShowResult(false);
+          setStarted(false);
+        }
+      });
+      return;
+    }
+
+    // fallback imediato
     setQuestions([]);
     setAnswers([]);
     setCurrent(0);
@@ -98,16 +123,36 @@ export default function Quiz() {
     });
   }, [showResult, questions.length, score]);
 
-  // Se o quiz ainda não foi iniciado, mostramos a tela de entrada/landing
+  // animação de entrada do painel de resultado
+  useEffect(() => {
+    if (!showResult) return;
+    const el = document.querySelector('.quiz-result') as HTMLDivElement | null;
+    if (!el) return;
+    gsap.fromTo(el, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: 'power2.out' });
+  }, [showResult]);
+
+  // animação do card de landing (entrada suave)
+  // NOTE: este useEffect precisa estar antes de qualquer return condicional
+  // para não alterar a ordem de Hooks entre renders (Rules of Hooks).
+  useEffect(() => {
+    if (started) return;
+    if (!landingRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(landingRef.current, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6, ease: 'power2.out' });
+    }, landingRef);
+    return () => ctx.revert();
+  }, [started]);
+
+  // Mostramos a tela de introdução até o usuário iniciar o quiz.
   if (!started) {
     return (
       <div className="w-full quiz-root">
-        <div className="content-card text-center">
+        <div className="content-card text-center" ref={landingRef}>
           <h2>Quiz Interativo sobre Animação</h2>
           <div className="title-underline" />
           <p className="mt-4 text-gray-700">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
-          <div className="mt-6">
-            <button onClick={startQuiz} className="px-5 py-3 rounded-md btn-accent">Iniciar Quiz</button>
+          <div className="mt-8 flex justify-center">
+            <button onClick={startQuiz} className="px-6 py-3 rounded-md btn-accent">Iniciar Quiz</button>
           </div>
         </div>
       </div>
@@ -116,7 +161,8 @@ export default function Quiz() {
 
   return (
     <div className="w-full quiz-root">
-      <div className="content-card">
+      <div className="quiz-wrap">
+        <div className="content-card">
         <h2 className="text-center">Quiz Interativo sobre Animação</h2>
   <div className="title-underline" />
         <p className="text-center text-gray-600 mt-2">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
@@ -129,8 +175,8 @@ export default function Quiz() {
             </div>
 
             <div className="mt-6 p-4 bg-white rounded-md border question-panel">
-              <div className="text-gray-900 font-semibold mb-3">Pergunta {current + 1} de {questions.length}:</div>
-              <div className="text-gray-800 font-medium mb-4">{questions[current].question}</div>
+              <div className="question-header">Pergunta {current + 1} de {questions.length}:</div>
+              <div className="question-text">{questions[current].question}</div>
               <div className="grid gap-3">
                 {questions[current].options.map((opt, i) => {
                   const selected = answers[current] === i;
@@ -138,7 +184,8 @@ export default function Quiz() {
                     <button
                       key={i}
                       onClick={(ev) => selectOption(i, ev)}
-                      className={`w-full text-left rounded-md px-4 py-3 transition-colors border ${selected ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-gray-100 text-gray-700 hover:bg-gray-50"}`}
+                      aria-pressed={selected}
+                      className={`option-btn ${selected ? 'selected' : ''}`}
                     >
                       {opt}
                     </button>
@@ -148,7 +195,7 @@ export default function Quiz() {
             </div>
 
             <div className="mt-6">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start">
                 <div className="flex gap-3 items-center pagination-dots">
                   {questions.map((_, i) => (
                     <button
@@ -159,14 +206,13 @@ export default function Quiz() {
                     />
                   ))}
                 </div>
-                <div>
-                  <button onClick={submit} className="px-4 py-3 rounded-md btn-accent">Finalizar</button>
-                </div>
+                {/* removed the separate Finalizar button here — Next will become Finalizar on the last question */}
+                <div />
               </div>
             </div>
           </div>
         ) : (
-          <div className="mt-4 p-4 bg-white rounded-md text-center">
+          <div className="mt-4 p-4 bg-white rounded-md text-center quiz-result">
             <div className="text-2xl font-bold">Resultado</div>
             <div className="mt-2 text-gray-600">Você acertou <span ref={scoreRef} className="font-semibold">{showResult ? score : 0}</span> de <span className="font-semibold">{questions.length}</span></div>
             <div className="mt-3 text-gray-700 text-lg">Percentual: <span className="font-bold">{percent}%</span></div>
@@ -178,10 +224,26 @@ export default function Quiz() {
         </div>
 
         {/* controles externos (botões Anterior / Próxima posicionados fora do card, como no print) */}
-        <div className="quiz-controls">
-          <button onClick={() => goto(current - 1)} disabled={current === 0} className="quiz-prev btn-accent">← Anterior</button>
-          <button onClick={() => goto(current + 1)} disabled={current === questions.length - 1} className="quiz-next btn-accent">Próxima →</button>
-        </div>
+        {!showResult && (
+          <div className="quiz-controls">
+            <button onClick={() => goto(current - 1)} disabled={current === 0} className="quiz-prev">← Anterior</button>
+            <button
+              onClick={() => {
+                if (current === questions.length - 1) {
+                  submit();
+                } else {
+                  goto(current + 1);
+                }
+              }}
+              disabled={questions.length === 0 || answers[current] === -1}
+              aria-disabled={questions.length === 0 || answers[current] === -1}
+              className="quiz-next"
+            >
+              {current === questions.length - 1 ? 'Finalizar →' : 'Próxima →'}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
