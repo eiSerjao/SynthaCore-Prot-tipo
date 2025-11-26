@@ -85,7 +85,7 @@ export default function PrototypeShell() {
         <header className="mb-8">
           <div className="hero-wrap max-w-5xl mx-auto">
             <div ref={headerRef} className="hero">
-              <h2 className="text-4xl font-semibold tracking-tight">SynthaCore</h2>
+              <h1 className="text-4xl font-semibold tracking-tight">SynthaCore</h1>
               <p className="text-sm mt-2 max-w-2xl mx-auto">Sistema Educacional Interativo</p>
             </div>
           </div>

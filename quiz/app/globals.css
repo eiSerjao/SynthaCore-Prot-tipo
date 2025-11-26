@@ -56,13 +56,15 @@ html, body, #__next {
     background: rgba(255,255,255,0.02);
     color: rgba(255,255,255,0.96);
     font-weight: 600;
-    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    /* Transitions otimizadas: preferir transform para animações suaves (GPU) */
+    transition: transform 260ms cubic-bezier(0.22,1,0.36,1), background 160ms ease, color 160ms ease;
+    will-change: transform, opacity;
+    transform: translateZ(0);
     border: 1px solid rgba(255,255,255,0.035);
     display: inline-flex; align-items: center; gap: 8px; font-size: 0.94rem;
     padding-left: 14px; padding-right: 14px;
   }
-
-  .nav-pill:hover{ transform: translateY(-2px); background: rgba(255,255,255,0.12); }
+  .nav-pill:hover{ transform: translateY(-6px); background: rgba(255,255,255,0.12); }
   .nav-pill.active{ background: white; color: #4f46e5; box-shadow: 0 8px 30px rgba(11,15,30,0.12); transform: translateY(-2px); }
 
   .pill-row{
@@ -129,6 +131,9 @@ html, body, #__next {
   border-radius: 9999px;
   border: 1px solid rgba(255,255,255,0.06);
   font-weight: 600;
+  transition: transform 260ms cubic-bezier(0.22,1,0.36,1), background 160ms ease, color 160ms ease;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 .nav-pill:hover { background: rgba(255,255,255,0.12); }
 .nav-pill.active { background: white; color: #4f46e5; box-shadow: 0 8px 30px rgba(11,15,30,0.12); transform: translateY(-2px); }
@@ -218,8 +223,10 @@ html, body, #__next {
 .example-btn{
   background: #4f46e5; color: white; padding: 8px 12px; border-radius: 8px; border: none; cursor: pointer;
   box-shadow: 0 6px 18px rgba(79,70,229,0.12); font-weight:600; font-size:0.9rem;
+  transition: transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms ease;
+  will-change: transform, opacity;
 }
-.example-btn:hover{ transform: translateY(-3px); }
+.example-btn:hover{ transform: translateY(-6px); box-shadow: 0 12px 28px rgba(79,70,229,0.14); }
 
 .content-card .demo-square{ margin-top: 18px; margin-bottom: 8px; }
 
@@ -291,13 +298,13 @@ html, body, #__next {
 /* Position the prev/next buttons outside the card like the reference */
 /* Ajustado: botões levantados para ficarem mais próximos ao cartão */
 .quiz-controls { position: absolute; left: 0; right: 0; bottom: -30px; display: flex; justify-content: space-between; padding: 0 24px; pointer-events: none; }
-.quiz-controls .quiz-prev, .quiz-controls .quiz-next { pointer-events: auto; }
+.quiz-controls .quiz-prev, .quiz-controls .quiz-next { pointer-events: auto; transition: transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms ease; will-change: transform, opacity; }
 .quiz-controls .quiz-prev { position: absolute; left: 20px; bottom: -20px; transform: translateY(0); }
 .quiz-controls .quiz-next { position: absolute; right: 20px; bottom: -20px; transform: translateY(0); }
 
 /* Tidy option buttons: consistent card-like look, spacing and hover */
-.quiz-root .question-panel .option-btn { display:block; width:100%; text-align:left; padding:16px 18px; border-radius:12px; background:#fff; border:1px solid #eef0f6; box-shadow: 0 8px 20px rgba(15,23,42,0.04); margin-bottom:12px; transition: transform 140ms ease, box-shadow 160ms ease, background 120ms ease, color 120ms ease; position: relative; }
-.quiz-root .question-panel .option-btn:hover { transform: translateY(-4px); box-shadow: 0 18px 36px rgba(15,23,42,0.06); }
+.quiz-root .question-panel .option-btn { display:block; width:100%; text-align:left; padding:16px 18px; border-radius:12px; background:#fff; border:1px solid #eef0f6; box-shadow: 0 8px 20px rgba(15,23,42,0.04); margin-bottom:12px; transition: transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms ease, background 120ms ease, color 120ms ease; position: relative; will-change: transform, opacity; transform: translateZ(0); }
+.quiz-root .question-panel .option-btn:hover { transform: translateY(-6px); box-shadow: 0 18px 36px rgba(15,23,42,0.06); }
 .quiz-root .question-panel .option-btn.selected { background: linear-gradient(90deg,#6f5df0,#8a73f8); border-color: transparent; color: white; box-shadow: 0 18px 40px rgba(107,127,240,0.16); }
 .quiz-root .question-panel .option-btn.selected::after { content: ""; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.95); }
 
