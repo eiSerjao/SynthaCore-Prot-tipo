@@ -131,7 +131,7 @@ export default function LegacyPage() {
   return (
     <div className="container">
       <div className="header">
-        <h1 id="app-title">Animação em Sistemas Multimídia</h1>
+        <h1 id="app-title">SynthaCore</h1>
         <p id="app-subtitle">Sistema Educacional Interativo</p>
       </div>
 
