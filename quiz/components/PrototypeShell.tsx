@@ -6,7 +6,7 @@ import Quiz from "./Quiz";
 
 // Shell do protótipo: navegação entre seções e área do quiz
 export default function PrototypeShell() {
-  const [section, setSection] = useState<"intro" | "animation" | "video" | "examples" | "quiz" | "historico">("intro");
+  const [section, setSection] = useState<"intro" | "animation" | "video" | "examples" | "quiz" | "devs">("intro");
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -104,7 +104,7 @@ export default function PrototypeShell() {
                 ["video", "🎨 Técnicas"],
                 ["examples", "✨ Exemplos"],
                 ["quiz", "🎯 Quiz"],
-                ["historico", "📊 Histórico"],
+                ["devs", "👥 Devs"],
               ].map(([key, label]) => (
                 <button
                   key={String(key)}
@@ -131,6 +131,59 @@ export default function PrototypeShell() {
           ) : (
             <>
               <main ref={contentRef} className="lg:col-span-2 space-y-6">
+                {section === 'devs' && (
+                  <section className="content-card">
+                    <h2>Sobre os Desenvolvedores</h2>
+                    <div className="section-underline" />
+                    <p className="mt-3 text-gray-700">Conheça a equipe responsável por este sistema educacional:</p>
+
+                    <div className="mt-6 devs-grid">
+                      <div className="dev-card">
+                        <div className="text-center">
+                          <div className="emoji">👨‍💻</div>
+                          <h4 className="dev-name">João Silva</h4>
+                          <div className="dev-role">Desenvolvedor Frontend</div>
+                          <p className="dev-desc">Especialista em animações web e experiência do usuário. Responsável pela implementação das animações GSAP e interface interativa.</p>
+                        </div>
+                      </div>
+
+                      <div className="dev-card">
+                        <div className="text-center">
+                          <div className="emoji">👩‍💻</div>
+                          <h4 className="dev-name">Maria Santos</h4>
+                          <div className="dev-role">Designer UX/UI</div>
+                          <p className="dev-desc">Designer focada em criar experiências educacionais envolventes. Desenvolveu toda a identidade visual e fluxo de navegação do sistema.</p>
+                        </div>
+                      </div>
+
+                      <div className="dev-card">
+                        <div className="text-center">
+                          <div className="emoji">🎓</div>
+                          <h4 className="dev-name">Pedro Costa</h4>
+                          <div className="dev-role">Especialista em Conteúdo</div>
+                          <p className="dev-desc">Professor de sistemas multimídia com 10 anos de experiência. Responsável pela curadoria e desenvolvimento do conteúdo educacional.</p>
+                        </div>
+                      </div>
+
+                      <div className="dev-card">
+                        <div className="text-center">
+                          <div className="emoji">👩‍🔬</div>
+                          <h4 className="dev-name">Ana Oliveira</h4>
+                          <div className="dev-role">Desenvolvedora Backend</div>
+                          <p className="dev-desc">Engenheira de software especializada em arquitetura de dados. Implementou o sistema de persistência e gerenciamento de quiz.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-8">
+                      <h3 className="section-title">Sobre o Projeto</h3>
+                      <p className="mt-2 text-gray-700">Este sistema educacional foi desenvolvido como parte de um projeto acadêmico sobre Animação em Sistemas Multimídia. O objetivo é proporcionar uma experiência de aprendizado interativa e envolvente, utilizando as mais modernas tecnologias web para demonstrar na prática os conceitos de animação digital.</p>
+
+                      <h3 className="section-title mt-6">Agradecimentos</h3>
+                      <p className="mt-2 text-gray-700">Agradecemos aos professores e colegas que contribuíram com feedback valioso durante o desenvolvimento deste projeto, e à comunidade open-source pelas ferramentas incríveis que tornaram este trabalho possível.</p>
+                    </div>
+                  </section>
+                )}
             {section === "intro" && (
               <section className="content-card">
                 <h2>Bem-vindo ao Sistema de Aprendizado de Animação!</h2>
