@@ -63,12 +63,25 @@ export default function Quiz() {
   // Calcula pontuação e mostra resultado
   function submit() {
     setShowResult(true);
+    // parar música de fundo quando finalizar
+    stopMusic();
+    // tocar som conforme resultado: se acertou 4 ou 5 -> 'acertou', senão -> 'errou'
+    // calculamos score já acima; usar guardas para evitar tocar sem perguntas
+    if (questions.length) {
+      if (score >= 4) {
+        playAudio(acertouRef, 0.6);
+      } else {
+        playAudio(errouRef, 0.6);
+      }
+    }
   }
 
   // Reinicia o quiz com novo sorteio (apenas no cliente)
   function reset() {
     // animação de saída do painel de resultado antes de resetar o estado
     // se o elemento ainda existir, anima para baixo e então limpa o estado
+    // parar música se estiver tocando
+    stopMusic();
     const el = document.querySelector('.quiz-result') as HTMLDivElement | null;
     if (el) {
       gsap.to(el, {
@@ -107,6 +120,70 @@ export default function Quiz() {
 
   // ref para animação de contagem no resultado
   const scoreRef = useRef<HTMLSpanElement | null>(null);
+  // refs para players de áudio (coloque os arquivos em /public)
+  const acertouRef = useRef<HTMLAudioElement | null>(null);
+  const errouRef = useRef<HTMLAudioElement | null>(null);
+  // ref para música de fundo do quiz (loop)
+  const musicRef = useRef<HTMLAudioElement | null>(null);
+  // estado para controlar se a música está habilitada (persistido em localStorage)
+  const [musicEnabled, setMusicEnabled] = useState<boolean>(true);
+
+  // carregar preferência do localStorage ao montar (cliente)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('quizMusicEnabled');
+      if (raw === 'false') setMusicEnabled(false);
+    } catch (e) {
+      // ignore
+    }
+  }, []);
+
+  function playAudio(ref: React.RefObject<HTMLAudioElement | null>, volume = 1) {
+    try {
+      const el = ref.current as HTMLAudioElement | null;
+      if (!el) return;
+      el.volume = volume;
+      el.currentTime = 0;
+      const p = el.play();
+      if (p && typeof (p as any).catch === 'function') (p as any).catch(() => {});
+    } catch (e) {
+      // silencioso em caso de erro de reprodução
+    }
+  }
+
+  function startMusic() {
+    if (!musicEnabled) return;
+    try {
+      const el = musicRef.current;
+      if (!el) return;
+      el.loop = true;
+      el.volume = 0.18;
+      el.currentTime = 0;
+      const p = el.play();
+      if (p && typeof (p as any).catch === 'function') (p as any).catch(() => {});
+    } catch {}
+  }
+
+  function stopMusic() {
+    try {
+      const el = musicRef.current;
+      if (!el) return;
+      // fade out suave antes de pausar (usa gsap para animar a propriedade volume)
+      const init = typeof el.volume === 'number' ? el.volume : 0.18;
+      gsap.to(el, {
+        volume: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        onComplete: () => {
+          try {
+            el.pause();
+            el.currentTime = 0;
+            el.volume = init; // restaurar volume para próximas execuções
+          } catch {}
+        }
+      });
+    } catch {}
+  }
 
   // animação da contagem quando showResult se torna true
   useEffect(() => {
@@ -143,6 +220,20 @@ export default function Quiz() {
     return () => ctx.revert();
   }, [started]);
 
+  // Garantir que a música só seja iniciada quando o quiz já estiver
+  // iniciado *e* o elemento <audio> estiver montado. Também reage à
+  // mudança de preferência `musicEnabled` (ex.: usuário liga/desliga).
+  useEffect(() => {
+    if (!started) return;
+    if (musicEnabled) {
+      // deferir ligeiramente para o React montar a ref do <audio>
+      const t = setTimeout(() => startMusic(), 0);
+      return () => clearTimeout(t);
+    } else {
+      stopMusic();
+    }
+  }, [started, musicEnabled]);
+
   // Mostramos a tela de introdução até o usuário iniciar o quiz.
   if (!started) {
     return (
@@ -151,6 +242,7 @@ export default function Quiz() {
           <h2>Quiz Interativo sobre Animação</h2>
           <div className="title-underline" />
           <p className="mt-4 text-gray-700">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
+          {/* toggle de música removido por solicitação do usuário */}
           <div className="mt-8 flex justify-center">
             <button onClick={startQuiz} className="px-6 py-3 rounded-md btn-accent">Iniciar Quiz</button>
           </div>
@@ -161,11 +253,18 @@ export default function Quiz() {
 
   return (
     <div className="w-full quiz-root">
+      {/* players de áudio (invisíveis) */}
+      <audio ref={acertouRef} src="/Acertou.mp3" preload="auto" />
+      <audio ref={errouRef} src="/Errou.mp3" preload="auto" />
+      <audio ref={musicRef} src="/Musica.mp3" preload="auto" />
       <div className="quiz-wrap">
         <div className="content-card">
         <h2 className="text-center">Quiz Interativo sobre Animação</h2>
   <div className="title-underline" />
-        <p className="text-center text-gray-600 mt-2">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
+        <div className="flex flex-col items-center">
+          <p className="text-center text-gray-600 mt-2">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
+          {/* toggle de música removido por solicitação do usuário */}
+        </div>
 
         {!showResult ? (
           <div className="mt-6">
