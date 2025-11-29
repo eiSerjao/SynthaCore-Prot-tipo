@@ -50,6 +50,15 @@ html, body, #__next {
     position: relative;
   }
 
+  /* Logo circular acima do título */
+  .hero .logo-wrap{ display:flex; justify-content:center; }
+  .hero .site-logo{
+    width:64px; height:64px; border-radius:9999px; object-fit:cover;
+    margin: 0 auto 12px; box-shadow: 0 10px 26px rgba(11,15,30,0.12);
+    border: 6px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);
+    display:inline-block;
+  }
+
   .nav-pill{
     padding: 0.48rem 0.98rem;
     border-radius: 9999px;

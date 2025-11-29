@@ -10,166 +10,166 @@ export type Question = {
 export const QUESTIONS: Question[] = [
   {
     id: 1,
-    question: "O que é 'easing' em animação?",
+    question: "A animação tradicional é caracterizada por:",
     options: [
-      "Uma técnica para comprimir frames",
-      "Curvas de aceleração e desaceleração do movimento",
-      "Um formato de arquivo de vídeo",
-      "Uma biblioteca JavaScript para animações"
+      "Filmagens reais com desenhos por cima",
+      "Desenhos feitos quadro a quadro manualmente",
+      "Modelos 3D renderizados",
+      "Distorções eletrônicas em tempo real"
     ],
     answerIndex: 1,
   },
   {
     id: 2,
-    question: "Qual a vantagem de usar SVG para animações vetoriais?",
+    question: "A técnica que utiliza pessoas se movendo em pequenas etapas entre fotos chama-se:",
     options: [
-      "Perda de qualidade ao redimensionar",
-      "Maior peso em bytes que imagens raster",
-      "Escalabilidade sem perda e menor trabalho com resolução",
-      "Não funciona em navegadores modernos"
+      "Scanimate",
+      "Stop Motion",
+      "Pixilation",
+      "Animação na película"
     ],
     answerIndex: 2,
   },
   {
     id: 3,
-    question: "O que significa 'frame rate' em animação?",
+    question: "Animação na película consiste em:",
     options: [
-      "A cor dominante do frame",
-      "A quantidade de frames por segundo",
-      "A resolução do vídeo",
-      "O tempo total da animação"
+      "Criar modelos 3D e animá-los no computador",
+      "Desenhar diretamente no filme fotográfico",
+      "Fotografar objetos quadro a quadro",
+      "Usar areia sobre uma mesa iluminada"
     ],
     answerIndex: 1,
   },
   {
     id: 4,
-    question: "Quando a animação é considerada 'decorativa' e deve ser evitada?",
+    question: "A animação com areia normalmente é feita:",
     options: [
-      "Quando melhora a usabilidade",
-      "Quando distrai sem agregar informação",
-      "Quando ajuda a guiar o usuário",
-      "Quando demonstra uma transformação"
+      "Dentro de softwares digitais",
+      "Com areia sobre superfície iluminada, quadro a quadro",
+      "Em esculturas 3D",
+      "Movendo pessoas reais"
     ],
     answerIndex: 1,
   },
   {
     id: 5,
-    question: "Qual boa prática para animações em interfaces acessíveis?",
+    question: "O Scanimate foi usado principalmente para:",
     options: [
-      "Nunca oferecer controle ao usuário",
-      "Ignorar preferências de movimento do sistema",
-      "Fornecer opção para reduzir/pausar animações",
-      "Usar animações em 100% dos elementos"
+      "Longas de animação 3D modernos",
+      "Videoclipes com rotoscopia",
+      "Vinhetas e gráficos de TV analógicos",
+      "Filmes com stop motion"
     ],
     answerIndex: 2,
   },
   {
     id: 6,
-    question: "Qual técnica reduz o custo de performance de animações no navegador?",
+    question: "Rotoscopia é uma técnica que:",
     options: [
-      "Animar propriedades que forçam repaint/layout (como width/height)",
-      "Animar transform e opacity sempre que possível",
-      "Adicionar muitos shadows e blur dinâmicos",
-      "Recarregar a página a cada frame"
+      "Usa areia para criar desenhos animados",
+      "Desenha sobre imagens filmadas reais",
+      "Modela objetos no computador",
+      "Pinta pelicula em projeções"
     ],
     answerIndex: 1,
   },
   {
     id: 7,
-    question: "O que é 'storyboarding' em produção de animação?",
+    question: "O Stop Motion utiliza:",
     options: [
-      "Uma ferramenta para compressão de vídeo",
-      "Uma sequência desenhada que planeja as cenas",
-      "Um formato de exportação para web",
-      "Um plugin do navegador"
+      "Computação para renderizar cenas 3D",
+      "Filmagens contínuas em tempo real",
+      "Fotografias de objetos em pequenas etapas",
+      "Desenhos feitos em papel"
     ],
-    answerIndex: 1,
+    answerIndex: 2,
   },
   {
     id: 8,
-    question: "Qual é um uso pedagógico comum de animações em multimídia?",
+    question: "Um exemplo conhecido de Stop Motion é:",
     options: [
-      "Substituir texto inteiramente",
-      "Demonstrar processos que ocorrem no tempo",
-      "Dificultar a compreensão do conteúdo",
-      "Aumentar o tamanho da página sem motivo"
+      "O Rei Leão (1994)",
+      "Coraline",
+      "Toy Story",
+      "A Scanner Darkly"
     ],
     answerIndex: 1,
   },
   {
     id: 9,
-    question: "O que é 'looping' em animação?",
+    question: "No exemplo de Stop Motion do projeto, quantas fotos foram tiradas?",
     options: [
-      "Uma técnica para pausar a animação",
-      "Repetir a mesma sequência continuamente",
-      "Converter animação em imagem estática",
-      "Uma medida de desempenho"
+      "50",
+      "113",
+      "240",
+      "300"
     ],
     answerIndex: 1,
   },
   {
     id: 10,
-    question: "Por que testes de usabilidade são importantes para animações?",
+    question: "Qual foi a duração final da animação do projeto?",
     options: [
-      "Para garantir que a animação rode em todos os dispositivos",
-      "Para verificar se a animação agrega compreensão e não atrapalha",
-      "Para melhorar o tamanho do arquivo",
-      "Para remover funcionalidades interativas"
+      "5 segundos",
+      "11 segundos",
+      "30 segundos",
+      "1 minuto"
     ],
     answerIndex: 1,
   },
   {
     id: 11,
-    question: "Qual formato é tipicamente usado para animações vetoriais na web?",
+    question: "A principal característica que torna o Stop Motion demorado é:",
     options: [
-      "JPEG",
-      "PNG",
-      "SVG",
-      "TIFF"
+      "Falta de efeitos sonoros",
+      "Necessidade de fotografar cada quadro individualmente",
+      "Uso de softwares complexos",
+      "Dificuldade em pintar cenários digitais"
     ],
-    answerIndex: 2,
+    answerIndex: 1,
   },
   {
     id: 12,
-    question: "O que significa 'microinteração'?",
+    question: "Para evitar tremores e cintilação na animação, é importante:",
     options: [
-      "Grandes vídeos explicativos",
-      "Pequenas respostas animadas a ações do usuário",
-      "Um método de compressão de áudio",
-      "Uma técnica de backup de dados"
-    ],
-    answerIndex: 1,
-  },
-  {
-    id: 13,
-    question: "Qual propriedade CSS é mais performática para animar position/size?",
-    options: [
-      "top/left",
-      "width/height",
-      "transform",
-      "box-shadow"
+      "Mudar a posição da câmera sempre que possível",
+      "Deixar a iluminação variar naturalmente",
+      "Não mover a câmera e manter luz constante",
+      "Gravar vídeo em vez de tirar fotos"
     ],
     answerIndex: 2,
   },
   {
-    id: 14,
-    question: "Em design instrucional, animações devem:",
+    id: 13,
+    question: "Quantos minutos foram usados para tirar as fotos do projeto?",
     options: [
-      "Substituir exemplos práticos automaticamente",
-      "Ser raras e somente quando ajudam a explicar",
-      "Estar sempre no início do conteúdo",
-      "Ser longo e complexo por padrão"
+      "12 minutos",
+      "5 minutos",
+      "24 minutos",
+      "2 minutos"
     ],
-    answerIndex: 1,
+    answerIndex: 0,
+  },
+  {
+    id: 14,
+    question: "Um exemplo clássico de animação tradicional é:",
+    options: [
+      "Coraline",
+      "Toy Story",
+      "O Rei Leão (versão clássica)",
+      "Filmes feitos com Scanimate"
+    ],
+    answerIndex: 2,
   },
   {
     id: 15,
-    question: "O que é 'keyframe' em animação CSS?",
+    question: "A animação 3D envolve principalmente:",
     options: [
-      "Um plugin para editar vídeos",
-      "Pontos que definem estados ao longo do tempo",
-      "Um tipo de imagem",
-      "Uma função matemática"
+      "Pintura sobre filme",
+      "Modelagem digital, rigging e renderização",
+      "Uso de areia e iluminação por baixo",
+      "Pessoas atuando quadro a quadro"
     ],
     answerIndex: 1,
   }
