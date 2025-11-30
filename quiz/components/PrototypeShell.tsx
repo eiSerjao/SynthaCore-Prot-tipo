@@ -143,37 +143,75 @@ export default function PrototypeShell() {
                     <div className="mt-6 devs-grid">
                       <div className="dev-card">
                         <div className="text-center">
-                          <div className="emoji">👨‍💻</div>
-                          <h4 className="dev-name">João Silva</h4>
-                          <div className="dev-role">Desenvolvedor Frontend</div>
-                          <p className="dev-desc">Especialista em animações web e experiência do usuário. Responsável pela implementação das animações GSAP e interface interativa.</p>
-                        </div>
-                      </div>
-
-                      <div className="dev-card">
-                        <div className="text-center">
                           <div className="emoji">👩‍💻</div>
-                          <h4 className="dev-name">Maria Santos</h4>
-                          <div className="dev-role">Designer UX/UI</div>
-                          <p className="dev-desc">Designer focada em criar experiências educacionais envolventes. Desenvolveu toda a identidade visual e fluxo de navegação do sistema.</p>
+                          <h4 className="dev-name">Ingryd Vitória</h4>
+                          <div className="dev-role">Lead Developer (Desenvolvedora Principal)</div>
+                          <p className="dev-desc mt-3"><strong>Nome:</strong> Ingryd Vitória de Araújo Barbosa</p>
+                          <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
+                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                            <li>Desenvolvimento Full-stack da aplicação web.</li>
+                            <li>Implementação da arquitetura Next.js e TypeScript.</li>
+                            <li>Estilização e UI com Tailwind CSS.</li>
+                          </ul>
                         </div>
                       </div>
 
                       <div className="dev-card">
                         <div className="text-center">
-                          <div className="emoji">🎓</div>
-                          <h4 className="dev-name">Pedro Costa</h4>
-                          <div className="dev-role">Especialista em Conteúdo</div>
-                          <p className="dev-desc">Professor de sistemas multimídia com 10 anos de experiência. Responsável pela curadoria e desenvolvimento do conteúdo educacional.</p>
+                          <div className="emoji">🎬</div>
+                          <h4 className="dev-name">Paulo Sérgio</h4>
+                          <div className="dev-role">Project Manager & Multimedia Producer</div>
+                          <p className="dev-desc mt-3"><strong>Nome:</strong> Paulo Sérgio Barros de Souza</p>
+                          <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
+                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                            <li>Gestão do time e Documentação de Requisitos (DRS).</li>
+                            <li>Produção e Edição de Vídeo (Tutorial/Making-of).</li>
+                            <li>Composição da Trilha Sonora Original (MIDI).</li>
+                            <li>Criação da Animação em Stop Motion.</li>
+                          </ul>
                         </div>
                       </div>
 
                       <div className="dev-card">
                         <div className="text-center">
-                          <div className="emoji">👩‍🔬</div>
-                          <h4 className="dev-name">Ana Oliveira</h4>
-                          <div className="dev-role">Desenvolvedora Backend</div>
-                          <p className="dev-desc">Engenheira de software especializada em arquitetura de dados. Implementou o sistema de persistência e gerenciamento de quiz.</p>
+                          <div className="emoji">🎨</div>
+                          <h4 className="dev-name">Kauan Henrique</h4>
+                          <div className="dev-role">Content Creator & Vector Designer</div>
+                          <p className="dev-desc mt-3"><strong>Nome:</strong> Kauan Henrique Barbosa da Costa</p>
+                          <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
+                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                            <li>Criação e Vetorização da Identidade Visual (Logo).</li>
+                            <li>Narração (Voiceover) do vídeo tutorial.</li>
+                            <li>Pesquisa e curadoria do conteúdo educacional sobre Animação.</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="dev-card">
+                        <div className="text-center">
+                          <div className="emoji">🔊</div>
+                          <h4 className="dev-name">Luiz Otávio</h4>
+                          <div className="dev-role">Sound Designer & Assistant Developer</div>
+                          <p className="dev-desc mt-3"><strong>Nome:</strong> Luiz Otávio de Souza Azevedo</p>
+                          <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
+                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                            <li>Captação e processamento de efeitos sonoros (Foley).</li>
+                            <li>Apoio no desenvolvimento e lógica do site.</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="dev-card">
+                        <div className="text-center">
+                          <div className="emoji">🖼️</div>
+                          <h4 className="dev-name">Murilo William</h4>
+                          <div className="dev-role">Visual Designer (Matrix)</div>
+                          <p className="dev-desc mt-3"><strong>Nome:</strong> Murilo William Trindade Guedes</p>
+                          <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
+                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                            <li>Captura e tratamento de imagens matriciais.</li>
+                            <li>Edição de fotografia para layout e texturas.</li>
+                          </ul>
                         </div>
                       </div>
                     </div>
