@@ -6,7 +6,7 @@ import Quiz from "./Quiz";
 
 // Shell do protótipo: navegação entre seções e área do quiz
 export default function PrototypeShell() {
-  const [section, setSection] = useState<"intro" | "animation" | "video" | "examples" | "quiz" | "devs">("intro");
+  const [section, setSection] = useState<"intro" | "animation" | "video" | "examples" | "quiz" | "devs" | "projectVideo">("intro");
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -108,6 +108,7 @@ export default function PrototypeShell() {
                 ["examples", "✨ Exemplos"],
                 ["quiz", "🎯 Quiz"],
                 ["devs", "👥 Devs"],
+                ["projectVideo", "🎬 Vídeo"],
               ].map(([key, label]) => (
                 <button
                   key={String(key)}
@@ -247,6 +248,23 @@ export default function PrototypeShell() {
                   <li><span className="icon">💾</span><span className="text">Histórico de desempenho salvo automaticamente</span></li>
                   <li><span className="icon">🔀</span><span className="text">Navegação não-linear entre os módulos</span></li>
                 </ul>
+              </section>
+            )}
+
+            {section === 'projectVideo' && (
+              <section className="content-card lg:col-span-2">
+                <h2>Vídeo do Projeto</h2>
+                <div className="section-underline" />
+                <p className="mt-3 text-gray-700">Assista ao vídeo do projeto abaixo.</p>
+                <div className="mt-4" style={{ position: 'relative', paddingTop: '56.25%' }}>
+                  <iframe
+                    src="https://www.youtube.com/embed/G5me3REBJhs"
+                    title="Vídeo do projeto"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </section>
             )}
 
