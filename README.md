@@ -37,11 +37,11 @@ Ainda que o tema esteja a definir, a equipe definiu a stack base:
 ## 🧑‍💻 Equipe de Desenvolvimento
 | Nome | Função Principal | GitHub / Contato |
 | :--- | :--- | :--- |
-| Ingryd Vitória de Araújo Barbosa | **Desenvolvedora** | [Link do GitHub] |
-| Luiz Otávio de Souza Azevedo | **Desenvolvedor** | [Link do GitHub] |
-| Murilo William Trindade Guedes | **Pesquisa** | [Link do GitHub] |
-| Kauan Henrique Barbosa da Costa | **Pesquisa** | [Link do GitHub] |
-| Paulo Sérgio Barros de Souza | **Gestão e Mídia** | [Link do GitHub] |
+| Ingryd Vitória de Araújo Barbosa | **Desenvolvedora** | [https://github.com/ingrydaraujob] |
+| Luiz Otávio de Souza Azevedo | **Desenvolvedor** | [https://github.com/0Tavinn] |
+| Murilo William Trindade Guedes | **Pesquisa** | [https://github.com/MuriloWG] |
+| Kauan Henrique Barbosa da Costa | **Pesquisa** | [https://github.com/KauanH1300] |
+| Paulo Sérgio Barros de Souza | **Gestão e Mídia** | [https://github.com/eiSerjao] |
 
 ---
 **DRS Original:** `Requisitos_Projeto_Multimidia.pdf`

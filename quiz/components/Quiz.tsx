@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import gsap from "gsap";
 import { pickRandomQuestions, Question } from "../data/questions";
 
@@ -22,14 +22,14 @@ export default function Quiz() {
   const [started, setStarted] = useState(false);
 
   // Starta o quiz: sorteia perguntas e inicializa respostas
-  function startQuiz() {
+  const startQuiz = useCallback(() => {
     const qs = pickRandomQuestions(5);
     setQuestions(qs);
     setAnswers(Array(qs.length).fill(-1));
     setCurrent(0);
     setShowResult(false);
     setStarted(true);
-  }
+  }, []);
 
   // Iniciar automaticamente quando o componente montar no cliente
   // (removemos a tela de landing, portanto devemos sortear as perguntas aqui)
@@ -38,7 +38,8 @@ export default function Quiz() {
   // Marca a opção selecionada para a pergunta atual
   const optionAnim = useRef<gsap.core.Tween | null>(null);
   const landingRef = useRef<HTMLDivElement | null>(null);
-  function selectOption(index: number, e?: React.MouseEvent<HTMLButtonElement>) {
+  
+  const selectOption = useCallback((index: number, e?: React.MouseEvent<HTMLButtonElement>) => {
     const copy = [...answers];
     copy[current] = index;
     setAnswers(copy);
@@ -52,13 +53,13 @@ export default function Quiz() {
     } catch (err) {
       // fail silently — não bloqueara a aplicação
     }
-  }
+  }, [answers, current]);
 
   // Vai para uma pergunta específica (navegação não-linear)
-  function goto(i: number) {
+  const goto = useCallback((i: number) => {
     if (i < 0 || i >= questions.length) return;
     setCurrent(i);
-  }
+  }, [questions.length]);
 
   // Calcula pontuação e mostra resultado
   function submit() {
@@ -107,16 +108,18 @@ export default function Quiz() {
     setShowResult(false);
     setStarted(false);
   }
-
   // Quando mostrar resultado, calculamos score (se perguntas já existirem)
-  const score = questions.length
-    ? answers.reduce((acc, ans, idx) => {
-        if (ans === questions[idx].answerIndex) return acc + 1;
-        return acc;
-      }, 0)
-    : 0;
+  const score = useMemo(() => {
+    if (!questions.length) return 0;
+    return answers.reduce((acc, ans, idx) => {
+      if (ans === questions[idx].answerIndex) return acc + 1;
+      return acc;
+    }, 0);
+  }, [questions, answers]);
 
-  const percent = questions.length ? Math.round((score / questions.length) * 100) : 0;
+  const percent = useMemo(() => {
+    return questions.length ? Math.round((score / questions.length) * 100) : 0;
+  }, [score, questions.length]);
 
   // ref para animação de contagem no resultado
   const scoreRef = useRef<HTMLSpanElement | null>(null);
@@ -239,12 +242,12 @@ export default function Quiz() {
     return (
       <div className="w-full quiz-root">
         <div className="content-card text-center" ref={landingRef}>
-          <h2>Quiz Interativo sobre Animação</h2>
+          <h2 className="text-xl md:text-2xl lg:text-3xl">Quiz Interativo sobre Animação</h2>
           <div className="title-underline" />
-          <p className="mt-4 text-gray-700">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
+          <p className="mt-3 md:mt-4 text-gray-700 text-sm md:text-base px-2">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
           {/* toggle de música removido por solicitação do usuário */}
-          <div className="mt-8 flex justify-center">
-            <button onClick={startQuiz} className="px-6 py-3 rounded-md btn-accent">Iniciar Quiz</button>
+          <div className="mt-6 md:mt-8 flex justify-center">
+            <button onClick={startQuiz} className="px-5 md:px-6 py-2.5 md:py-3 rounded-md btn-accent text-sm md:text-base">Iniciar Quiz</button>
           </div>
         </div>
       </div>
@@ -259,24 +262,24 @@ export default function Quiz() {
       <audio ref={musicRef} src="/Musica.mp3" preload="auto" />
       <div className="quiz-wrap">
         <div className="content-card">
-        <h2 className="text-center">Quiz Interativo sobre Animação</h2>
+        <h2 className="text-center text-xl md:text-2xl lg:text-3xl">Quiz Interativo sobre Animação</h2>
   <div className="title-underline" />
         <div className="flex flex-col items-center">
-          <p className="text-center text-gray-600 mt-2">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
+          <p className="text-center text-gray-600 mt-2 text-sm md:text-base px-2">Teste seus conhecimentos! 5 perguntas serão sorteadas de um banco de 15 questões.</p>
           {/* toggle de música removido por solicitação do usuário */}
         </div>
 
         {!showResult ? (
-          <div className="mt-6">
+          <div className="mt-4 md:mt-6">
             {/* barra de progresso */}
             <div className="quiz-progress">
               <div className="quiz-progress-bar" style={{ width: `${Math.round(((current + 1) / questions.length) * 100)}%` }} />
             </div>
 
-            <div className="mt-6 p-4 bg-white rounded-md border question-panel">
-              <div className="question-header">Pergunta {current + 1} de {questions.length}:</div>
-              <div className="question-text">{questions[current].question}</div>
-              <div className="grid gap-3">
+            <div className="mt-4 md:mt-6 p-3 md:p-4 bg-white rounded-md border question-panel">
+              <div className="question-header text-sm md:text-base">Pergunta {current + 1} de {questions.length}:</div>
+              <div className="question-text text-sm md:text-base">{questions[current].question}</div>
+              <div className="grid gap-2 md:gap-3">
                 {questions[current].options.map((opt, i) => {
                   const selected = answers[current] === i;
                   return (
@@ -293,9 +296,9 @@ export default function Quiz() {
               </div>
             </div>
 
-            <div className="mt-6">
-              <div className="flex justify-between items-start">
-                <div className="flex gap-3 items-center pagination-dots">
+            <div className="mt-4 md:mt-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div className="flex gap-2 md:gap-3 items-center pagination-dots flex-wrap justify-center w-full sm:w-auto">
                   {questions.map((_, i) => (
                     <button
                       key={i}
@@ -311,12 +314,12 @@ export default function Quiz() {
             </div>
           </div>
         ) : (
-          <div className="mt-4 p-4 bg-white rounded-md text-center quiz-result">
-            <div className="text-2xl font-bold">Resultado</div>
-            <div className="mt-2 text-gray-600">Você acertou <span ref={scoreRef} className="font-semibold">{showResult ? score : 0}</span> de <span className="font-semibold">{questions.length}</span></div>
-            <div className="mt-3 text-gray-700 text-lg">Percentual: <span className="font-bold">{percent}%</span></div>
+          <div className="mt-3 md:mt-4 p-3 md:p-4 bg-white rounded-md text-center quiz-result">
+            <div className="text-xl md:text-2xl font-bold">Resultado</div>
+            <div className="mt-2 text-gray-600 text-sm md:text-base">Você acertou <span ref={scoreRef} className="font-semibold">{showResult ? score : 0}</span> de <span className="font-semibold">{questions.length}</span></div>
+            <div className="mt-3 text-gray-700 text-base md:text-lg">Percentual: <span className="font-bold">{percent}%</span></div>
             <div className="mt-4 flex justify-center gap-3">
-              <button onClick={reset} className="px-4 py-2 rounded-md btn-accent">Refazer</button>
+              <button onClick={reset} className="px-4 py-2 rounded-md btn-accent text-sm md:text-base">Refazer</button>
             </div>
           </div>
         )}
@@ -325,7 +328,7 @@ export default function Quiz() {
         {/* controles externos (botões Anterior / Próxima posicionados fora do card, como no print) */}
         {!showResult && (
           <div className="quiz-controls">
-            <button onClick={() => goto(current - 1)} disabled={current === 0} className="quiz-prev">← Anterior</button>
+            <button onClick={() => goto(current - 1)} disabled={current === 0} className="quiz-prev text-sm md:text-base">← Anterior</button>
             <button
               onClick={() => {
                 if (current === questions.length - 1) {
@@ -336,7 +339,7 @@ export default function Quiz() {
               }}
               disabled={questions.length === 0 || answers[current] === -1}
               aria-disabled={questions.length === 0 || answers[current] === -1}
-              className="quiz-next"
+              className="quiz-next text-sm md:text-base"
             >
               {current === questions.length - 1 ? 'Finalizar →' : 'Próxima →'}
             </button>

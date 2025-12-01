@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import gsap from "gsap";
 import Quiz from "./Quiz";
 
+type Section = "intro" | "animation" | "video" | "examples" | "quiz" | "devs" | "projectVideo";
+
 // Shell do protótipo: navegação entre seções e área do quiz
 export default function PrototypeShell() {
-  const [section, setSection] = useState<"intro" | "animation" | "video" | "examples" | "quiz" | "devs" | "projectVideo">("intro");
+  const [section, setSection] = useState<Section>("intro");
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -80,16 +82,16 @@ export default function PrototypeShell() {
   };
 
   return (
-    <div ref={rootRef} className="min-h-screen py-12 px-6">
+    <div ref={rootRef} className="min-h-screen py-6 md:py-8 lg:py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <header className="mb-8">
+        <header className="mb-6 md:mb-8">
           <div className="hero-wrap max-w-5xl mx-auto">
             <div ref={headerRef} className="hero">
               <div className="logo-wrap">
                 <img src="/logo.png" alt="Logo" className="site-logo" />
               </div>
-              <h1 className="text-4xl font-semibold tracking-tight">SynthaCore</h1>
-              <p className="text-sm mt-2 max-w-2xl mx-auto">Sistema Educacional Interativo</p>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight">SynthaCore</h1>
+              <p className="text-xs md:text-sm mt-2 max-w-2xl mx-auto">Sistema Educacional Interativo</p>
             </div>
           </div>
 
@@ -99,7 +101,7 @@ export default function PrototypeShell() {
             do hero. O posicionamento visual (overlap) continua sendo controlado
             via CSS em `.pill-row` (margin-top / transform).
           */}
-          <div className="mt-6 flex justify-center">
+          <div className="mt-4 md:mt-6 flex justify-center overflow-x-auto">
             <div className="pill-row">
               {[
                 ["intro", "🏠 Início"],
@@ -115,7 +117,8 @@ export default function PrototypeShell() {
                   onClick={() => setSection(key as any)}
                   className={`nav-pill ${section === key ? 'active' : ''}`}
                 >
-                  <span>{label}</span>
+                  <span className="hidden sm:inline">{label}</span>
+                  <span className="sm:hidden">{String(label).split(' ')[0]}</span>
                 </button>
               ))}
             </div>
@@ -123,7 +126,7 @@ export default function PrototypeShell() {
         </header>
 
         {/* Content area: left = content, right = quiz (desktop). Quiz só aparece quando o usuário seleciona 'quiz' */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           {section === 'quiz' ? (
             <main className="lg:col-span-3">
               <section className="content-card">
@@ -134,14 +137,14 @@ export default function PrototypeShell() {
             </main>
           ) : (
             <>
-              <main ref={contentRef} className="lg:col-span-2 space-y-6">
+              <main ref={contentRef} className="lg:col-span-2 space-y-4 md:space-y-6">
                 {section === 'devs' && (
                   <section className="content-card">
                     <h2>Sobre os Desenvolvedores</h2>
                     <div className="section-underline" />
                     <p className="mt-3 text-gray-700">Conheça a equipe responsável por este sistema educacional:</p>
 
-                    <div className="mt-6 devs-grid">
+                    <div className="mt-4 md:mt-6 devs-grid">
                       <div className="dev-card">
                         <div className="text-center">
                           <div className="emoji">👩‍💻</div>
@@ -149,7 +152,7 @@ export default function PrototypeShell() {
                           <div className="dev-role">Lead Developer (Desenvolvedora Principal)</div>
                           <p className="dev-desc mt-3"><strong>Nome:</strong> Ingryd Vitória de Araújo Barbosa</p>
                           <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
-                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                          <ul className="mt-2 list-disc pl-4 md:pl-6 text-gray-700 text-left text-sm md:text-base">
                             <li>Desenvolvimento Full-stack da aplicação web.</li>
                             <li>Implementação da arquitetura Next.js e TypeScript.</li>
                             <li>Estilização e UI com Tailwind CSS.</li>
@@ -164,7 +167,7 @@ export default function PrototypeShell() {
                           <div className="dev-role">Project Manager & Multimedia Producer</div>
                           <p className="dev-desc mt-3"><strong>Nome:</strong> Paulo Sérgio Barros de Souza</p>
                           <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
-                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                          <ul className="mt-2 list-disc pl-4 md:pl-6 text-gray-700 text-left text-sm md:text-base">
                             <li>Gestão do time e Documentação de Requisitos (DRS).</li>
                             <li>Produção e Edição de Vídeo (Tutorial/Making-of).</li>
                             <li>Composição da Trilha Sonora Original (MIDI).</li>
@@ -180,7 +183,7 @@ export default function PrototypeShell() {
                           <div className="dev-role">Content Creator & Vector Designer</div>
                           <p className="dev-desc mt-3"><strong>Nome:</strong> Kauan Henrique Barbosa da Costa</p>
                           <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
-                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                          <ul className="mt-2 list-disc pl-4 md:pl-6 text-gray-700 text-left text-sm md:text-base">
                             <li>Criação e Vetorização da Identidade Visual (Logo).</li>
                             <li>Narração (Voiceover) do vídeo tutorial.</li>
                             <li>Pesquisa e curadoria do conteúdo educacional sobre Animação.</li>
@@ -195,7 +198,7 @@ export default function PrototypeShell() {
                           <div className="dev-role">Sound Designer & Assistant Developer</div>
                           <p className="dev-desc mt-3"><strong>Nome:</strong> Luiz Otávio de Souza Azevedo</p>
                           <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
-                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                          <ul className="mt-2 list-disc pl-4 md:pl-6 text-gray-700 text-left text-sm md:text-base">
                             <li>Captação e processamento de efeitos sonoros (Foley).</li>
                             <li>Apoio no desenvolvimento e lógica do site.</li>
                           </ul>
@@ -209,7 +212,7 @@ export default function PrototypeShell() {
                           <div className="dev-role">Visual Designer (Matrix)</div>
                           <p className="dev-desc mt-3"><strong>Nome:</strong> Murilo William Trindade Guedes</p>
                           <p className="mt-2 text-gray-700"><strong>Contribuições:</strong></p>
-                          <ul className="mt-2 list-disc pl-6 text-gray-700 text-left">
+                          <ul className="mt-2 list-disc pl-4 md:pl-6 text-gray-700 text-left text-sm md:text-base">
                             <li>Captura e tratamento de imagens matriciais.</li>
                             <li>Edição de fotografia para layout e texturas.</li>
                           </ul>
@@ -217,11 +220,11 @@ export default function PrototypeShell() {
                       </div>
                     </div>
 
-                    <div className="mt-8">
+                    <div className="mt-6 md:mt-8">
                       <h3 className="section-title">Sobre o Projeto</h3>
                       <p className="mt-2 text-gray-700">Este sistema educacional foi desenvolvido como parte de um projeto acadêmico sobre Animação em Sistemas Multimídia. O objetivo é proporcionar uma experiência de aprendizado interativa e envolvente, utilizando as mais modernas tecnologias web para demonstrar na prática os conceitos de animação digital.</p>
 
-                      <h3 className="section-title mt-6">Agradecimentos</h3>
+                      <h3 className="section-title mt-4 md:mt-6">Agradecimentos</h3>
                       <p className="mt-2 text-gray-700">Agradecemos aos professores e colegas que contribuíram com feedback valioso durante o desenvolvimento deste projeto, e à comunidade open-source pelas ferramentas incríveis que tornaram este trabalho possível.</p>
                     </div>
                   </section>
@@ -232,7 +235,7 @@ export default function PrototypeShell() {
                 <div className="section-underline" />
                 <p className="mt-3 text-gray-700">Este sistema multimídia interativo foi desenvolvido para ensinar os conceitos fundamentais de animação em sistemas multimídia. Explore o conteúdo de forma não-linear navegando pelos diferentes módulos.</p>
                 <h3 className="section-title">O que você vai aprender:</h3>
-                <ul className="mt-3 text-gray-700 list-disc pl-6 space-y-2">
+                <ul className="mt-3 text-gray-700 list-disc pl-4 md:pl-6 space-y-2">
                   <li>Conceitos básicos de animação digital</li>
                   <li>Princípios de animação aplicados a sistemas multimídia</li>
                   <li>Técnicas de implementação (CSS, JavaScript, bibliotecas)</li>
@@ -256,7 +259,7 @@ export default function PrototypeShell() {
                 <h2>Vídeo do Projeto</h2>
                 <div className="section-underline" />
                 <p className="mt-3 text-gray-700">Assista ao vídeo do projeto abaixo.</p>
-                <div className="mt-4" style={{ position: 'relative', paddingTop: '56.25%' }}>
+                <div className="mt-4 w-full" style={{ position: 'relative', paddingTop: '56.25%' }}>
                   <iframe
                     src="https://www.youtube.com/embed/G5me3REBJhs"
                     title="Vídeo do projeto"
@@ -273,14 +276,14 @@ export default function PrototypeShell() {
                 <h2>TIPOS DE ANIMAÇÃO</h2>
                 <div className="section-underline" />
 
-                <h3 className="section-subtitle mt-4">Tipos de Animação em Multimídia</h3>
-                <p className="mt-2 text-gray-700">A animação é a técnica de criar a ilusão de movimento através de imagens sequenciais. Existem várias formas de produzir animações ao longo da história e em diferentes tecnologias. A seguir estão os principais tipos usados em sistemas multimídia:</p>
+                <h3 className="section-subtitle mt-3 md:mt-4">Tipos de Animação em Multimídia</h3>
+                <p className="mt-2 text-gray-700 text-sm md:text-base">A animação é a técnica de criar a ilusão de movimento através de imagens sequenciais. Existem várias formas de produzir animações ao longo da história e em diferentes tecnologias. A seguir estão os principais tipos usados em sistemas multimídia:</p>
 
-                <div className="mt-4">
+                <div className="mt-3 md:mt-4">
                   <h4 className="section-subtitle">1⃣ Animação Tradicional</h4>
-                  <p className="text-gray-700">A técnica consiste em desenhar cada quadro à mão. Quando os desenhos são exibidos em sequência, geram a sensação de movimento.</p>
-                  <p className="text-gray-700"><strong>Como é feita:</strong></p>
-                  <ul className="mt-2 list-disc pl-6 text-gray-700">
+                  <p className="text-gray-700 text-sm md:text-base">A técnica consiste em desenhar cada quadro à mão. Quando os desenhos são exibidos em sequência, geram a sensação de movimento.</p>
+                  <p className="text-gray-700 text-sm md:text-base"><strong>Como é feita:</strong></p>
+                  <ul className="mt-2 list-disc pl-4 md:pl-6 text-gray-700 text-sm md:text-base">
                     <li>Desenhos feitos em papel ou acetato (cels)</li>
                     <li>Pintura e fotografia quadro a quadro</li>
                     <li>Reproduzido em película ou digitalizado</li>
@@ -407,16 +410,16 @@ export default function PrototypeShell() {
                 <h2>Processo de Produção da Animação</h2>
                 <div className="section-underline" />
 
-                <p className="mt-2 text-gray-700">Independente da técnica escolhida, a criação de uma animação segue etapas fundamentais:</p>
+                <p className="mt-2 text-gray-700 text-sm md:text-base">Independente da técnica escolhida, a criação de uma animação segue etapas fundamentais:</p>
 
-                <div className="mt-4">
+                <div className="mt-3 md:mt-4">
                   <h4 className="section-subtitle">1⃣ Roteiro</h4>
-                  <p className="text-gray-700">Definição da história, personagens e diálogos.</p>
+                  <p className="text-gray-700 text-sm md:text-base">Definição da história, personagens e diálogos.</p>
                 </div>
 
                 <div className="mt-3">
                   <h4 className="section-subtitle">2⃣ Storyboard</h4>
-                  <p className="text-gray-700">Desenhos simples organizando as cenas da história na ordem certa. Funciona como uma “revista em quadrinhos” do filme.</p>
+                  <p className="text-gray-700 text-sm md:text-base">Desenhos simples organizando as cenas da história na ordem certa. Funciona como uma "revista em quadrinhos" do filme.</p>
                 </div>
 
                 <div className="mt-3">
@@ -472,25 +475,25 @@ export default function PrototypeShell() {
                   
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-4 md:mt-6">
                   <h3 className="section-subtitle">Dados da animação</h3>
-                  <ul className="mt-2 list-disc pl-6 text-gray-700">
+                  <ul className="mt-2 list-disc pl-4 md:pl-6 text-gray-700 text-sm md:text-base">
                     <li>113 fotos tiradas manualmente</li>
                     <li>12 minutos de captação</li>
                     <li>11 segundos de duração final</li>
                     <li>Movimentação feita com pequenos ajustes entre cada foto</li>
                   </ul>
-                  <p className="mt-2 text-gray-700">Esse processo mostra como a técnica exige paciência, planejamento e precisão nos movimentos.</p>
+                  <p className="mt-2 text-gray-700 text-sm md:text-base">Esse processo mostra como a técnica exige paciência, planejamento e precisão nos movimentos.</p>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-4 md:mt-6">
                   <h3 className="section-subtitle">O que é Stop Motion?</h3>
-                  <p className="mt-2 text-gray-700">Stop Motion é uma técnica de animação em que objetos físicos são fotografados repetidamente, sendo movidos sutilmente entre cada foto. Ao exibir as imagens em sequência, cria-se a ilusão de movimento.</p>
+                  <p className="mt-2 text-gray-700 text-sm md:text-base">Stop Motion é uma técnica de animação em que objetos físicos são fotografados repetidamente, sendo movidos sutilmente entre cada foto. Ao exibir as imagens em sequência, cria-se a ilusão de movimento.</p>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-4 md:mt-6">
                   <h3 className="section-subtitle">Características detalhadas do Stop Motion</h3>
-                  <div className="mt-3 text-gray-700">
+                  <div className="mt-3 text-gray-700 text-sm md:text-base">
                     <p><strong>Técnica:</strong> Quadro a Quadro — cada imagem é uma fotografia individual.</p>
                     <p className="mt-2"><strong>Objeto / Material:</strong> Argila, brinquedos, papel, LEGO, pessoas, etc.</p>
                     <p className="mt-2"><strong>Movimentos:</strong> Gradativos — pequenas mudanças garantem fluidez.</p>
